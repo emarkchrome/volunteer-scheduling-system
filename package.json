@@ -4,7 +4,9 @@
   "description": "Core Features: - Create an event - Create time slots - Allow people to signup for timeslots",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "server": "node server.js",
+    "client": "cd client && npm start",
+    "start": "concurrently \"npm run server\" \"npm run client\""
   },
   "repository": {
     "type": "git",
