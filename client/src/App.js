@@ -4,7 +4,15 @@ import './App.css';
 
 class App extends Component {
   componentDidMount() {
-    fetch('/api/hello')
+    fetch('/api/create-event', {
+      method: 'POST',
+      body: JSON.stringify({
+        'eventName': 'Fundraiser'
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
       .then(function(data) {
         return data.json();
       })
