@@ -39,7 +39,7 @@ app.post('/api/create-event', function(req, res) {
     availableVolunteerSlots: req.body.availableVolunteerSlots,
     timeSlotData: timeSlotData,
   };
-  
+
   redis.get('events', function(error, result){
     var currentEvents = JSON.parse(result);
     currentEvents.push(eventDetails);
@@ -49,6 +49,13 @@ app.post('/api/create-event', function(req, res) {
   res.json({ 'event': eventDetails });
 });
 
+app.get('/api/reset-database', function(req, res) {
+
+  redis.flushdb();
+  redis.set('events', '[]');
+  res.send('Database reset!');
+
+})
 app.listen(port, function() {
   console.log('Server running on port ' + port);
 });
