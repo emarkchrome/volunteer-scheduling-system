@@ -4,7 +4,7 @@
   "description": "Core Features: - Create an event - Create time slots - Allow people to signup for timeslots",
   "main": "index.js",
   "scripts": {
-    "server": "nodemon server.js",
+    "server": "nodemon --inspect server.js",
     "client": "cd client && npm start",
     "start": "concurrently \"npm run server\" \"npm run client\""
   },
