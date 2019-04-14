@@ -4,6 +4,8 @@ var Redis = require('ioredis');
 
 var bodyParser = require('body-parser');
 
+var moment = require('moment');
+
 var express = require('express');
 
 var app = express();
