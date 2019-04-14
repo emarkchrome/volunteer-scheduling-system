@@ -23,6 +23,7 @@ app.post('/api/create-event', function(req, res) {
 
   for (let i = 0; i < req.body.numberOfSlots; i++) {
     timeSlotData.push({
+      id: Math.round(Math.random() * 100000000000),
       slotStartDate: moment(req.body.eventStartDate, 'HH:mm DD MM YYYY').add(timeSlotDuration * i, 'minutes').format('HH:mm DD MM YYYY'),
       slotEndDate: moment(req.body.eventStartDate, 'HH:mm DD MM YYYY').add(timeSlotDuration * (i + 1), 'minutes').format('HH:mm DD MM YYYY'),
       availableVolunteerSlots: req.body.availableVolunteerSlots,
