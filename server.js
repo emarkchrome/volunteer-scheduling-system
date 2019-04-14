@@ -50,6 +50,14 @@ app.post('/api/create-event', function(req, res) {
   res.json({ 'event': eventDetails });
 });
 
+app.get('/api/get-events', function(req, res) {
+
+  redis.get('events', function(error, result) {
+    res.json({ 'events': JSON.parse(result) });
+  });
+
+});
+
 app.get('/api/reset-database', function(req, res) {
 
   redis.flushdb();
@@ -57,6 +65,7 @@ app.get('/api/reset-database', function(req, res) {
   res.send('Database reset!');
 
 })
+
 app.listen(port, function() {
   console.log('Server running on port ' + port);
 });
