@@ -29,7 +29,7 @@ API Interface:
     Joins a time slot.
 
     eventId: The unique identifier of the event which the user wants to attend
-
+    
     timeSlotId: The unique identifier of the timeslot which the user wants to attend
 
   }
@@ -51,7 +51,7 @@ Database Schema:
 
       eventEndDate: Date date
 
-      timeSlotData: TimeSlotObject timeslot
+      timeSlotData: Array [ TimeSlotObject ]
 
     }
 
@@ -79,4 +79,3 @@ Create Event Form Specifications:
   numberOfSlots: The number of slots that the event will have
 
   availableVolunteerSlots: The number of volunteer slots in each timeslot
-
