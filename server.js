@@ -41,13 +41,23 @@ app.post('/api/create-event', function(req, res) {
     timeSlotData: timeSlotData,
   };
 
+app.post('/api/join-timeslot', function(req, res) {
+
+  var eventId = req.body.eventId;
+  var timeslotId = req.body.timeslotId;
+  res.send(`Joining timeslot ${timeslotId} in event ${eventId}.`);
+
   redis.get('events', function(error, result){
     var currentEvents = JSON.parse(result);
-    currentEvents.push(eventDetails);
+    var volunteerSlotsTaken = currentEvents.find(function(index) { return index.id == eventId }).timeSlotData.find(function(index) { return index.id == timeslotId }).volunteerSlotsTaken;
+    if (volunteerSlotsTaken < 4) {
+      currentEvents.find(function(index) { return index.id == eventId }).timeSlotData.find(function(index) { return index.id == timeslotId }).volunteerSlotsTaken++;
+    } else {
+      res.send('noslotsleft');
+    }
     redis.set('events', JSON.stringify(currentEvents));
   });
 
-  res.json({ 'event': eventDetails });
 });
 
 app.get('/api/get-events', function(req, res) {
