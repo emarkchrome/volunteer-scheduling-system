@@ -15,17 +15,18 @@ app.use(bodyParser.json());
 var port = process.env.PORT || 5000;
 
 app.post('/api/create-event', function(req, res) {
+
   var timeSlotData = [];
 
-  var eventDuration = moment.duration(moment(req.body.eventEndDate, 'HH:mm DD MM YYYY').diff(moment(req.body.eventStartDate, 'HH:mm DD MM YYYY')));
+  var eventDuration = moment.duration(moment(req.body.eventEndDate, 'YYYY-MM-DDTHH:mm').diff(moment(req.body.eventStartDate, 'YYYY-MM-DDTHH:mm')));
 
   var timeSlotDuration = eventDuration.asMinutes() / req.body.numberOfSlots;
 
   for (let i = 0; i < req.body.numberOfSlots; i++) {
     timeSlotData.push({
       id: Math.round(Math.random() * 100000000000),
-      slotStartDate: moment(req.body.eventStartDate, 'HH:mm DD MM YYYY').add(timeSlotDuration * i, 'minutes').format('HH:mm DD MM YYYY'),
-      slotEndDate: moment(req.body.eventStartDate, 'HH:mm DD MM YYYY').add(timeSlotDuration * (i + 1), 'minutes').format('HH:mm DD MM YYYY'),
+      slotStartDate: moment(req.body.eventStartDate, 'YYYY-MM-DDTHH:mm').add(timeSlotDuration * i, 'minutes').format('HH:mm DD MM YYYY'),
+      slotEndDate: moment(req.body.eventStartDate, 'YYYY-MM-DDTHH:mm').add(timeSlotDuration * (i + 1), 'minutes').format('HH:mm DD MM YYYY'),
       availableVolunteerSlots: req.body.availableVolunteerSlots,
       volunteerSlotsTaken: 0
     });
@@ -34,12 +35,22 @@ app.post('/api/create-event', function(req, res) {
   var eventDetails = {
     eventName: req.body.eventName,
     id: req.body.eventName.toLowerCase(),
-    eventStartDate: req.body.eventStartDate,
-    eventEndDate: req.body.eventEndDate,
+    eventStartDate: moment(req.body.eventStartDate, 'YYYY-MM-DDTHH:mm').format('HH:mm DD MM YYYY'),
+    eventEndDate: moment(req.body.eventEndDate, 'YYYY-MM-DDTHH:mm').format('HH:mm DD MM YYYY'),
     numberOfSlots: req.body.numberOfSlots,
     availableVolunteerSlots: req.body.availableVolunteerSlots,
     timeSlotData: timeSlotData,
   };
+
+  redis.get('events', function(error, result){
+    var currentEvents = JSON.parse(result);
+    currentEvents.push(eventDetails);
+    redis.set('events', JSON.stringify(currentEvents));
+  });
+
+  res.json({ 'event': eventDetails });
+
+});
 
 app.post('/api/join-timeslot', function(req, res) {
 
