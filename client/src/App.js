@@ -5,10 +5,14 @@ import './App.css';
 
 class App extends Component {
   componentDidMount() {
-    fetch('/api/create-event', {
+    /*fetch('/api/create-event', {
       method: 'POST',
       body: JSON.stringify({
-        'eventName': 'Fundraiser'
+        'eventName': 'Fundraiser',
+        'eventStartDate': '14:00 24 05 2019',
+        'eventEndDate': '19:00 24 05 2019',
+        'numberOfSlots': 5,
+        'availableVolunteerSlots': 4
       }),
       headers: {
         'Content-Type': 'application/json'
@@ -20,23 +24,25 @@ class App extends Component {
       .then(function(data) {
         console.log(data);
       });
-  }
+  }*/
+  fetch('/api/get-events', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+    .then(function(data) {
+      return data.json();
+    })
+    .then(function(data) {
+      console.log(data);
+    });
+}
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
+        <header>
+          <h1>Volunteer Scheduler</h1>
         </header>
       </div>
     );
