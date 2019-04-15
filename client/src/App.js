@@ -60,6 +60,8 @@ class App extends Component {
       <div className="App">
         <header>
           <h1>Volunteer Scheduler</h1>
+        </header>
+        <div className="events">
           {
             this.state.events.map((event, index) => {
               return (
@@ -88,6 +90,8 @@ class App extends Component {
           }
         </header>
         <div className="events"></div>
+        <div className="create-event-form">
+        </div>
       </div>
     );
   }
